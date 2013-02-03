@@ -3,7 +3,11 @@
 
 = form_tag movies_path, :method => :get, id: "ratings_form" do
   Include: 
-  - if params[:ratings].nil?
+  - if params[:ratings].nil? and session[:ratings].nil?
+    - @all_ratings.each do |rating|
+      = rating
+      = check_box_tag "ratings[#{rating}]", 1 , true, id: "ratings_#{rating}"
+  - elsif params[:ratings].nil?
     - @all_ratings.each do |rating|
       = rating
       = check_box_tag "ratings[#{rating}]", 1 , session[:ratings].has_key?(rating), id: "ratings_#{rating}"
