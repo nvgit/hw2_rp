@@ -22,9 +22,11 @@ class MoviesController < ApplicationController
     if params[:ratings].nil? and session[:ratings].nil?
       @movies = Movie.all(:order => @sort)
     elsif params[:ratings].nil?
-      @movies = Movie.where(:rating => session[:ratings].keys).order(@sort)
+      #@movies = Movie.where(:rating => session[:ratings].keys).order(@sort)
+      @movies = Movie.where(:rating => session[:ratings].keys, :order => @sort)
     else
-      @movies = Movie.where(:rating => params[:ratings].keys).order(@sort)
+      #@movies = Movie.where(:rating => params[:ratings].keys).order(@sort)
+      @movies = Movie.where(:rating => params[:ratings].keys, :order => @sort)
       session[:ratings] = params[:ratings]
     end
   end
@@ -48,7 +50,8 @@ class MoviesController < ApplicationController
     @movie = Movie.find params[:id]
     @movie.update_attributes!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully updated."
-    redirect_to movie_path @movie, flash[:notice]
+    flash.keep
+    redirect_to movie_path @movie
   end
 
   def destroy
