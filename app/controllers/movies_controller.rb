@@ -37,7 +37,7 @@ class MoviesController < ApplicationController
     @movie = Movie.create!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully created."
     flash.keep
-    redirect_to movies_path
+    redirect_to movies_path(:sort => session[:sort], :ratings => session[:ratings])
   end
 
   def edit
@@ -57,7 +57,7 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     flash.keep
-    redirect_to movies_path
+    redirect_to movies_path(:sort => session[:sort], :ratings => session[:ratings])
   end
 
 end
